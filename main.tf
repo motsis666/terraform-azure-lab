@@ -1,8 +1,10 @@
 # Using "az login" to login Azure Subscription.
 # Provider
  provider "azurerm" {
-    subscription_id = "54d87296-b91a-47cd-93dd-955bd57b3e9a"
-    tenant_id       = "7d37f2bd-a1dc-4e2c-aaa3-c758dc77fff7"
+    Subscription_id = "var.azure_cloud_provider.subscription_id"
+    tenant_id = "var.azure_cloud_provider.tenant_id"    
+    #subscription_id = "54d87296-b91a-47cd-93dd-955bd57b3e9a"
+    #tenant_id       = "7d37f2bd-a1dc-4e2c-aaa3-c758dc77fff7"
     }
 
 #Create virtual network
