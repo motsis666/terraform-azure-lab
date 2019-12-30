@@ -1,16 +1,16 @@
-/* Using "az login" to login Azure Subscription.
-*/ Provider
- provider "azurerm" { 
-    subscription_id = "54d87296-b91a-47cd-93dd-955bd57b3e9a"
-    tenant_id       = "7d37f2bd-a1dc-4e2c-aaa3-c758dc77fff7"
-    }
+# Using "az login" to login Azure Subscription.
+# Provider
+ #provider "azurerm" { 
+    #subscription_id = "54d87296-b91a-47cd-93dd-955bd57b3e9a"
+    #tenant_id       = "7d37f2bd-a1dc-4e2c-aaa3-c758dc77fff7"
+    #}
 
 #Create virtual network
 resource "azurerm_virtual_network" "marcelnguyennetwork" {
     name                = "myVnet"
     address_space       = ["10.0.0.0/16"]
-    location            = "southeastasia"
-    resource_group_name = "RG_marcelnguyen_20191230"
+    location            = var.location
+    resource_group_name = var.resource_group_name
 
     tags = {
         environment = "Marcel Nguyen Terraform Demo"
@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "marcelnguyennetwork" {
 
 resource "azurerm_subnet" "marcelnguyensubnet" {
     name                 = "mySubnet"
-    resource_group_name  = "RG_marcelnguyen_20191230"
+    resource_group_name  = var.resource_group_name
     virtual_network_name = azurerm_virtual_network.marcelnguyennetwork.name
     address_prefix       = "10.0.2.0/24"
 }
@@ -27,8 +27,8 @@ resource "azurerm_subnet" "marcelnguyensubnet" {
 #Create public IP address
 resource "azurerm_public_ip" "marcelnguyenpublicip" {
     name                         = "myPublicIP"
-    location                     = "southeastasia"
-    resource_group_name          = "RG_marcelnguyen_20191230"
+    location                     = var.location
+    resource_group_name          = var.resource_group_name
     allocation_method            = "Dynamic"
 
     tags = {
@@ -39,8 +39,8 @@ resource "azurerm_public_ip" "marcelnguyenpublicip" {
 #Create Network Security Group
 resource "azurerm_network_security_group" "marcelnguyenNetworkSecurityGroup" {
     name                = "marcelnguyenNetworkSecurityGroup"
-    location            = "southeastasia"
-    resource_group_name = "RG_marcelnguyen_20191230"
+    location            = var.location
+    resource_group_name = var.resource_group_name
     
     security_rule {
         name                       = "RDP"
@@ -62,8 +62,8 @@ resource "azurerm_network_security_group" "marcelnguyenNetworkSecurityGroup" {
 #Create virtual network interface card
 resource "azurerm_network_interface" "marcelnguyennic" {
     name                        = "myNIC"
-    location                    = "southeastasia"
-    resource_group_name         = "RG_marcelnguyen_20191230"
+    location                    = var.location
+    resource_group_name         = var.resource_group_name
     network_security_group_id   = azurerm_network_security_group.marcelnguyenNetworkSecurityGroup.id
 
     ip_configuration {
@@ -90,8 +90,8 @@ resource "random_id" "randomId" {
 
 resource "azurerm_storage_account" "mystorageaccount" {
     name                        = "diag${random_id.randomId.hex}"
-    resource_group_name         = "RG_marcelnguyen_20191230"
-    location                    = "southeastasia"
+    resource_group_name         = var.resource_group_name
+    location                    = var.location
     account_replication_type    = "LRS"
     account_tier                = "Standard"
 
@@ -103,8 +103,8 @@ resource "azurerm_storage_account" "mystorageaccount" {
 #Create virtual machine
 resource "azurerm_virtual_machine" "marcelnguyenvm" {
     name                  = "myVM_marcel.nguyen"
-    location              = "southeastasia"
-    resource_group_name   = "RG_marcelnguyen_20191230"
+    location              = var.location
+    resource_group_name   = var.resource_group_name
     network_interface_ids = [azurerm_network_interface.marcelnguyennic.id]
     vm_size               = "Standard_DS1_v2"
 
