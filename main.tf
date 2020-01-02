@@ -95,13 +95,13 @@ resource "azurerm_storage_account" "mystorageaccount" {
     }
 }
 
-#Create virtual machine
-resource "azurerm_virtual_machine" "marcelnguyenvm" {
-    name                  = "myVM_marcel.nguyen"
+#Create virtual machine VM01
+resource "azurerm_virtual_machine" "marcelnguyenvm01" {
+    name                  = "myVM_marcel.nguyen01"
     location              = var.location
     resource_group_name   = var.resource_group_name
     network_interface_ids = [azurerm_network_interface.marcelnguyennic.id]
-    vm_size               = "Standard_DS1_v2"
+    vm_size               = var.vm_size
 
     os_profile_windows_config {
         provision_vm_agent=true
@@ -123,7 +123,50 @@ resource "azurerm_virtual_machine" "marcelnguyenvm" {
     }
 
     os_profile {
-        computer_name  = "myvm"
+        computer_name  = "myvm01"
+        admin_username = "marcelnguyen"
+        admin_password = "Thu234567"
+    }
+
+    boot_diagnostics {
+        enabled     = "true"
+        storage_uri = azurerm_storage_account.mystorageaccount.primary_blob_endpoint
+    }
+
+    tags = {
+        environment = "Marcel Nguyen Terraform Demo"
+    }
+}
+
+#Create virtual machine VM02
+resource "azurerm_virtual_machine" "marcelnguyenvm02" {
+    name                  = "myVM_marcel.nguyen02"
+    location              = var.location
+    resource_group_name   = var.resource_group_name
+    network_interface_ids = [azurerm_network_interface.marcelnguyennic.id]
+    vm_size               = var.vm_size
+
+    os_profile_windows_config {
+        provision_vm_agent=true
+        timezone="Romance Standard Time"
+    }
+    storage_os_disk {
+        name              = "myOsDisk"
+        caching           = "ReadWrite"
+        create_option     = "FromImage"
+        managed_disk_type = "Standard_LRS"
+        os_type = "Windows"
+    }
+
+    storage_image_reference {
+        publisher = "MicrosoftWindowsServer"
+        offer     = "WindowsServer"
+        sku       = "2019-Datacenter"
+        version   = "latest"
+    }
+
+    os_profile {
+        computer_name  = "myvm02"
         admin_username = "marcelnguyen"
         admin_password = "Thu234567"
     }

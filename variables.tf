@@ -7,3 +7,8 @@ variable "location" {
   description = "Azure Lab Resource Group Location"
   default = "southeastasia"
 }
+
+variable "vm_size" {
+    description = "Azure Lab VM Size"
+    default = "Standard_DS1_v2"
+}
