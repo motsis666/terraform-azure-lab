@@ -108,7 +108,7 @@ resource "azurerm_virtual_machine" "marcelnguyenvm01" {
         timezone="Romance Standard Time"
     }
     storage_os_disk {
-        name              = "myOsDisk"
+        name              = "myOsDisk01"
         caching           = "ReadWrite"
         create_option     = "FromImage"
         managed_disk_type = "Standard_LRS"
@@ -139,7 +139,7 @@ resource "azurerm_virtual_machine" "marcelnguyenvm01" {
 }
 
 #Create virtual machine VM02
-resource "azurerm_virtual_machine" "marcelnguyenvm02" {
+/* resource "azurerm_virtual_machine" "marcelnguyenvm02" {
     name                  = "myVM_marcel.nguyen02"
     location              = var.location
     resource_group_name   = var.resource_group_name
@@ -151,7 +151,7 @@ resource "azurerm_virtual_machine" "marcelnguyenvm02" {
         timezone="Romance Standard Time"
     }
     storage_os_disk {
-        name              = "myOsDisk"
+        name              = "myOsDisk02"
         caching           = "ReadWrite"
         create_option     = "FromImage"
         managed_disk_type = "Standard_LRS"
@@ -179,4 +179,4 @@ resource "azurerm_virtual_machine" "marcelnguyenvm02" {
     tags = {
         environment = "Marcel Nguyen Terraform Demo"
     }
-}
+}*/
