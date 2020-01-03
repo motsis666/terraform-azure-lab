@@ -56,7 +56,8 @@ resource "azurerm_network_security_group" "marcelnguyenNetworkSecurityGroup" {
 
 #Create virtual network interface card
 resource "azurerm_network_interface" "marcelnguyennic" {
-    name                        = "myNIC"
+    count = 2
+    name                        = "myNIC${count.index}"
     location                    = var.location
     resource_group_name         = var.resource_group_name
     network_security_group_id   = azurerm_network_security_group.marcelnguyenNetworkSecurityGroup.id
